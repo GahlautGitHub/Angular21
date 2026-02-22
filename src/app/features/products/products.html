@@ -1,0 +1,52 @@
+<div class="container">
+  <header class="table-header-section">
+    <h2>User Management <span class="count-badge">{{ filteredProducts().length }}</span></h2>
+    
+    <div class="search-box">
+      <input 
+        type="text" 
+        placeholder="Filter by name or email..." 
+        [ngModel]="searchQuery()" 
+        (ngModelChange)="searchQuery.set($event)"
+      />
+    </div>
+  </header>
+
+  @if (isLoading()) {
+    <div class="skeleton-loader">Loading Large Dataset...</div>
+  }
+
+  <div class="virtual-table">
+    <div class="grid-header">
+      <div class="cell idx">#</div>
+      <div class="cell id">ID</div>
+      <div class="cell gender">Gender</div>
+      <div class="cell name">Name</div>
+      <div class="cell email">Email</div>
+      <div class="cell actions">Actions</div>
+    </div>
+
+    <cdk-virtual-scroll-viewport itemSize="48" class="viewport">
+      <div *cdkVirtualFor="let p of filteredProducts(); track let i = index" class="grid-row">
+        <div class="cell idx">{{ i + 1 }}</div>
+        <div class="cell id">{{ p.id }}</div>
+        <div class="cell gender">
+          <span class="tag" [ngClass]="p.gender.toLowerCase()">{{ p.gender }}</span>
+        </div>
+        <div class="cell name">{{ p.name }}</div>
+        <div class="cell email">{{ p.email }}</div>
+        <div class="cell actions">
+          <button class="edit-icon" (click)="editRecord(p.id)" title="Edit">✏️</button>
+          <button class="delete-icon" (click)="deleteRecord(p.id)" title="Delete">🗑️</button>
+        </div>
+      </div>
+
+      @if (filteredProducts().length === 0 && !isLoading()) {
+        <div class="empty-state">
+          <p>No records found for "{{ searchQuery() }}"</p>
+          <button (click)="searchQuery.set('')">Clear Search</button>
+        </div>
+      }
+    </cdk-virtual-scroll-viewport>
+  </div>
+</div>
