@@ -1,0 +1,14 @@
+/* The viewport MUST have a fixed height and a block display */
+.viewport {
+  height: 600px; /* Or use 70vh for responsive height */
+  width: 100%;
+  border: 1px solid #ddd;
+  display: block; // Ensures it takes up space
+}
+
+/* Optional: Ensure rows have the exact height defined in HTML (itemSize="48") */
+.grid-row {
+  height: 48px; 
+  display: flex;
+  align-items: center;
+}
